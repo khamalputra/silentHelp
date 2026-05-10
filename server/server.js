@@ -19,12 +19,11 @@ const io = new Server(httpServer, {
 });
 
 // ======= KONFIGURASI GEMINI AI =======
-// Dapatkan API Key gratis di: https://aistudio.google.com/
-const GEMINI_API_KEY = 'AIzaSyCRn-jUj_Z5taIr_pR-kyP-tGWD3un0eI0';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 async function getAiSmartMessage(extraInfo) {
-  if (!extraInfo || GEMINI_API_KEY === 'ISI_API_KEY_GEMINI_ANDA_DI_SINI') return null;
+  if (!extraInfo || !GEMINI_API_KEY) return null;
 
   try {
     const response = await fetch(GEMINI_URL, {
@@ -233,7 +232,7 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 httpServer.listen(PORT, () => {
   console.log(`SilentHelp Backend Server running on port ${PORT}`);
 });
