@@ -1,4 +1,4 @@
-const CACHE_NAME = 'silenthelp-v1';
+const CACHE_NAME = 'silenthelp-v2'; // Naikkan versi agar browser melakukan update paksa
 const ASSETS = [
   '/',
   '/index.html',
@@ -44,13 +44,13 @@ self.addEventListener('push', (event) => {
 
   const options = {
     body: data.body || 'Seseorang butuh bantuan!',
-    icon: '/icon-192.png', // Ikon utama
-    badge: '/icon-192.png', // Ikon kecil di status bar
-    vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40], // Pola getaran sirine
-    tag: 'sos-alert', // Agar notifikasi tidak menumpuk tapi terupdate
-    renotify: true, // Bergetar lagi jika ada update
+    icon: self.location.origin + '/icon-192.png', // Gunakan alamat lengkap
+    badge: self.location.origin + '/icon-192.png',
+    vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40],
+    tag: 'sos-alert',
+    renotify: true,
     data: {
-      url: data.data ? data.data.url : '/'
+      url: data.data ? data.data.url : self.location.origin
     },
     actions: [
       { action: 'open', title: '📍 Buka Peta' }
