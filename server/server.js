@@ -14,11 +14,14 @@ app.get('/', (req, res) => {
 // Endpoint untuk mendaftarkan relawan ke sistem Push Notification
 app.post('/subscribe', express.json(), (req, res) => {
   const subscription = req.body;
+  console.log('New Push Subscription received from client:', subscription.endpoint);
+  
   // Simpan jika belum ada (sederhana untuk demo)
   if (!subscriptions.find(s => s.endpoint === subscription.endpoint)) {
     subscriptions.push(subscription);
+    console.log(`Total active subscriptions: ${subscriptions.length}`);
   }
-  res.status(201).json({});
+  res.status(201).json({ message: 'Subscribed successfully' });
 });
 
 const httpServer = createServer(app);
