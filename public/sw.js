@@ -6,7 +6,9 @@ const ASSETS = [
   '/main.js',
   '/calculator.js',
   '/sos-service.js',
-  '/manifest.json'
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -32,5 +34,36 @@ self.addEventListener('fetch', (event) => {
     fetch(event.request).catch(() => {
       return caches.match(event.request);
     })
+  );
+});
+
+// ======= PENERIMA NOTIFIKASI PUSH =======
+self.addEventListener('push', (event) => {
+  const data = event.data ? event.data.json() : {};
+  console.log('Push received:', data);
+
+  const options = {
+    body: data.body || 'Seseorang butuh bantuan!',
+    icon: data.icon || '/icon-192.png',
+    badge: '/icon-192.png',
+    vibrate: [200, 100, 200, 100, 200, 100, 400], // Getaran darurat
+    data: {
+      url: data.data ? data.data.url : '/'
+    },
+    actions: [
+      { action: 'open', title: '📍 Buka Peta' }
+    ]
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title || 'SilentHelp SOS', options)
+  );
+});
+
+// Menangani klik pada notifikasi
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url)
   );
 });
