@@ -44,9 +44,11 @@ self.addEventListener('push', (event) => {
 
   const options = {
     body: data.body || 'Seseorang butuh bantuan!',
-    icon: data.icon || '/icon-192.png',
-    badge: '/icon-192.png',
-    vibrate: [200, 100, 200, 100, 200, 100, 400], // Getaran darurat
+    icon: '/icon-192.png', // Ikon utama
+    badge: '/icon-192.png', // Ikon kecil di status bar
+    vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40], // Pola getaran sirine
+    tag: 'sos-alert', // Agar notifikasi tidak menumpuk tapi terupdate
+    renotify: true, // Bergetar lagi jika ada update
     data: {
       url: data.data ? data.data.url : '/'
     },
