@@ -223,26 +223,37 @@ function showCriticalToast(alertData) {
     alertItem.id = alertId;
     alertItem.className = 'critical-alert-item';
     alertItem.style.cssText = `
-      background: #e74c3c; color: white; padding: 10px; 
-      text-align: center; border-bottom: 1px solid #c0392b;
-      animation: pulseRed 1.5s infinite; font-weight: bold;
-      pointer-events: auto;
-      font-size: 0.9rem; /* Ukuran lebih kecil agar hemat tempat */
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: white; padding: 18px; margin: 5px;
+      text-align: center; border-radius: 16px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      animation: pulseRed 1.8s infinite; font-weight: 500;
+      pointer-events: auto; font-size: 0.95rem;
+      border: 1px solid rgba(255,255,255,0.2);
     `;
     container.prepend(alertItem); 
     
     if (!document.getElementById('pulse-red-style')) {
       const style = document.createElement('style');
       style.id = 'pulse-red-style';
-      style.innerHTML = `@keyframes pulseRed { 0% { background: #e74c3c; } 50% { background: #c0392b; } 100% { background: #e74c3c; } }`;
+      style.innerHTML = `
+        @keyframes pulseRed { 
+          0% { transform: scale(1); box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4); } 
+          50% { transform: scale(1.02); box-shadow: 0 10px 25px rgba(255, 65, 108, 0.6); } 
+          100% { transform: scale(1); box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4); } 
+        }
+      `;
       document.head.appendChild(style);
     }
   }
 
   alertItem.innerHTML = `
-    🚨 DARURAT: ${alertData.distance}m 🚨<br/>
+    <div style="font-size: 1.1rem; margin-bottom: 5px;">🚨 <b>DARURAT: ${alertData.distance}m</b> 🚨</div>
     ${extraHtml}
-    <a href="${mapUrl}" target="_blank" style="color: yellow; text-decoration: underline; font-size: 1.1rem;">📍 LIHAT POSISI</a>
+    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+      <a href="${mapUrl}" target="_blank" style="background: white; color: #ff416c; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 0.85rem; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">📍 Buka Peta</a>
+      <button onclick="navigator.clipboard.writeText('${alertData.location.lat},${alertData.location.lng}'); alert('Koordinat disalin!');" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.85rem;">📋 Salin Lokasi</button>
+    </div>
   `;
 }
 
