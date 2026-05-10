@@ -1,7 +1,7 @@
 {
-  "name": "SilentHelp SOS",
-  "short_name": "SilentHelp",
-  "description": "Emergency SOS stealth application",
+  "name": "Calculator",
+  "short_name": "Calculator",
+  "description": "A simple and fast calculator.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0d0d0d",
