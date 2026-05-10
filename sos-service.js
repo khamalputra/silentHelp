@@ -2,8 +2,8 @@
 // Handles the stealth SOS logic
 import { io } from "socket.io-client";
 
-// Connect to our local Backend Server
-const socket = io("http://localhost:3001");
+// Connect to our production Backend Server on Railway
+const socket = io("https://silenthelp-production.up.railway.app");
 
 // Track if we are sending location
 let locationInterval = null;
