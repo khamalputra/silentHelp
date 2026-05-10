@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔢</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="A simple and fast calculator." />
+    <title>Calculator</title>
+    <!-- Add SEO and PWA related tags here later if needed -->
+  </head>
+  <body>
+    <div id="app">
+      <div class="calculator">
+        <div class="display">
+          <div class="previous-operand" id="previous-operand"></div>
+          <div class="current-operand" id="current-operand">0</div>
+        </div>
+        <div class="keypad">
+          <button class="btn fn" id="clear">AC</button>
+          <button class="btn fn" id="delete">DEL</button>
+          <button class="btn fn" id="percent">%</button>
+          <button class="btn op" data-operation="÷">÷</button>
+          
+          <button class="btn num" data-number="7">7</button>
+          <button class="btn num" data-number="8">8</button>
+          <button class="btn num" data-number="9">9</button>
+          <button class="btn op" data-operation="*">×</button>
+          
+          <button class="btn num" data-number="4">4</button>
+          <button class="btn num" data-number="5">5</button>
+          <button class="btn num" data-number="6">6</button>
+          <button class="btn op" data-operation="-">−</button>
+          
+          <button class="btn num" data-number="1">1</button>
+          <button class="btn num" data-number="2">2</button>
+          <button class="btn num" data-number="3">3</button>
+          <button class="btn op" data-operation="+">+</button>
+          
+          <button class="btn num span-2" data-number="0">0</button>
+          <button class="btn num" data-number=".">.</button>
+          <button class="btn op" id="equals">=</button>
+        </div>
+      </div>
+
+      <!-- Hidden Context Setup Modal (Camouflaged as Notes/History) -->
+      <div id="setup-modal" class="hidden">
+        <div class="modal-content">
+          <h2>Notes</h2>
+          <textarea id="context-input" placeholder="Type notes here..."></textarea>
+          <button id="save-context-btn">Save</button>
+        </div>
+      </div>
+      
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

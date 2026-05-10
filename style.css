@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+:root {
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --btn-num-bg: #333333;
+  --btn-num-hover: #4d4d4d;
+  --btn-fn-bg: #a5a5a5;
+  --btn-fn-text: #000000;
+  --btn-fn-hover: #d9d9d9;
+  --btn-op-bg: #ff9f0a;
+  --btn-op-hover: #ffb340;
+  --btn-op-active: #ffffff;
+  --btn-op-active-text: #ff9f0a;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  user-select: none;
+}
+
+#app {
+  width: 100%;
+  max-width: 450px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  padding-bottom: 40px; /* Safe area for some phones */
+}
+
+.calculator {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.display {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 20px 10px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.previous-operand {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 2.5rem;
+  font-weight: 300;
+  min-height: 3rem;
+}
+
+.current-operand {
+  color: white;
+  font-size: 5rem;
+  font-weight: 300;
+  line-height: 1;
+  text-align: right;
+  width: 100%;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.btn {
+  border: none;
+  border-radius: 50%;
+  font-size: 2rem;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1 / 1;
+  transition: background-color 0.1s ease-out, transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn.num {
+  background-color: var(--btn-num-bg);
+  color: var(--text-color);
+}
+
+.btn.num:hover, .btn.num:active {
+  background-color: var(--btn-num-hover);
+}
+
+.btn.fn {
+  background-color: var(--btn-fn-bg);
+  color: var(--btn-fn-text);
+}
+
+.btn.fn:hover, .btn.fn:active {
+  background-color: var(--btn-fn-hover);
+}
+
+.btn.op {
+  background-color: var(--btn-op-bg);
+  color: var(--text-color);
+  font-size: 2.5rem;
+}
+
+.btn.op:hover, .btn.op:active {
+  background-color: var(--btn-op-hover);
+}
+
+.btn.span-2 {
+  grid-column: span 2;
+  border-radius: 40px;
+  aspect-ratio: auto;
+  justify-content: flex-start;
+  padding-left: 35px;
+}
+
+/* Optional: Toast notification styles for testing, hide in production */
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(50, 50, 50, 0.9);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+/* Hidden Setup Modal */
+#setup-modal {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--bg-color);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+#setup-modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.modal-content h2 {
+  color: var(--text-color);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+#context-input {
+  flex-grow: 1;
+  background-color: #1a1a1a;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 15px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  resize: none;
+  margin-bottom: 20px;
+}
+
+#context-input:focus {
+  outline: 1px solid var(--btn-op-bg);
+}
+
+#save-context-btn {
+  background-color: var(--btn-op-bg);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#save-context-btn:active {
+  background-color: var(--btn-op-hover);
+}
