@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
 
 :root {
-  --bg-color: #000000;
-  --text-color: #ffffff;
-  --btn-num-bg: #333333;
-  --btn-num-hover: #4d4d4d;
-  --btn-fn-bg: #a5a5a5;
+  --bg-color: #0d0d0d;
+  --text-color: #f5f5f7;
+  --btn-num-bg: #1c1c1e;
+  --btn-num-hover: #2c2c2e;
+  --btn-fn-bg: #d1d1d6;
   --btn-fn-text: #000000;
-  --btn-fn-hover: #d9d9d9;
+  --btn-fn-hover: #e5e5ea;
   --btn-op-bg: #ff9f0a;
   --btn-op-hover: #ffb340;
   --btn-op-active: #ffffff;
@@ -161,13 +161,21 @@ body {
 
 /* Hidden Setup Modal */
 #setup-modal {
-  position: absolute;
+  position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: var(--bg-color);
-  z-index: 50;
+  background-color: rgba(13, 13, 13, 0.85);
+  backdrop-filter: blur(20px); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 20000;
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 40px 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 #setup-modal.hidden {
@@ -205,16 +213,18 @@ body {
 }
 
 #save-context-btn {
-  background-color: var(--btn-op-bg);
+  background: linear-gradient(135deg, #ff9f0a, #ff3b30);
   color: white;
   border: none;
-  padding: 15px;
-  border-radius: 10px;
+  padding: 18px;
+  border-radius: 14px;
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 59, 48, 0.3);
+  transition: transform 0.2s;
 }
 
 #save-context-btn:active {
-  background-color: var(--btn-op-hover);
+  transform: scale(0.98);
 }
