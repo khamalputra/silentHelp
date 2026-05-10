@@ -2,12 +2,23 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
+import webpush from 'web-push'; // Tambahkan ini
 
 const app = express();
 app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('✅ SilentHelp Backend Server is running and listening for WebSockets!');
+});
+
+// Endpoint untuk mendaftarkan relawan ke sistem Push Notification
+app.post('/subscribe', express.json(), (req, res) => {
+  const subscription = req.body;
+  // Simpan jika belum ada (sederhana untuk demo)
+  if (!subscriptions.find(s => s.endpoint === subscription.endpoint)) {
+    subscriptions.push(subscription);
+  }
+  res.status(201).json({});
 });
 
 const httpServer = createServer(app);
@@ -21,6 +32,19 @@ const io = new Server(httpServer, {
 // ======= KONFIGURASI GEMINI AI =======
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+// ======= KONFIGURASI PUSH NOTIFICATION =======
+const PUBLIC_VAPID_KEY = process.env.PUBLIC_VAPID_KEY || 'BCYMK1UibwxWRU82AGBzcVSaq4E_Q_62yTo7kwdvZRE1mPOwkyQXCLaLeEja18yXNh6EBnbB4GQGyI_-fQVk7Rk';
+const PRIVATE_VAPID_KEY = process.env.PRIVATE_VAPID_KEY || 'KnOzmRnl_v5XUzU7MDRyWjKvKAntLNUaFSnusLDkGQc';
+
+webpush.setVapidDetails(
+  'mailto:example@yourdomain.org',
+  PUBLIC_VAPID_KEY,
+  PRIVATE_VAPID_KEY
+);
+
+let subscriptions = []; // Simpan semua relawan yang mengaktifkan notifikasi
+// ============================================
 
 async function getAiSmartMessage(extraInfo) {
   if (!extraInfo || !GEMINI_API_KEY) return null;
@@ -197,6 +221,25 @@ io.on('connection', (socket) => {
         notifiedCount++;
       }
     }
+
+    // ======= KIRIM PUSH NOTIFICATION KE SEMUA RELAWAN =======
+    const pushPayload = JSON.stringify({
+      title: '🚨 DARURAT: SilentHelp SOS! 🚨',
+      body: `Ada sinyal darurat dalam radius 10KM. Segera bantu! ${aiMessage || ''}`,
+      icon: '/icon-192.png',
+      data: { url: '/' }
+    });
+
+    subscriptions.forEach(sub => {
+      webpush.sendNotification(sub, pushPayload).catch(err => {
+        console.error('Gagal mengirim push notification:', err);
+        // Hapus subscription yang sudah expired
+        if (err.statusCode === 410 || err.statusCode === 404) {
+          subscriptions = subscriptions.filter(s => s.endpoint !== sub.endpoint);
+        }
+      });
+    });
+    // ========================================================
 
     console.log(`Broadcasted SOS to ${notifiedCount} users within 10KM.`);
   });
